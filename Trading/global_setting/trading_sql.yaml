@@ -1,0 +1,107 @@
+Portfolio_holding:
+    table_name: "portfolio_holding"
+    db_url: "mysql+pymysql://root:root@localhost:3306/portfolio_new?autocommit=True"
+    chunk_size: 20000
+    workers: 4
+    private_keys:
+      - "valuation_date"
+      - 'code'
+      - 'portfolio_name'
+      - 'product_code'
+      - 'quantity'
+      - 'update_time'
+    schema:
+      valuation_date: { type: String, length: 50 }
+      product_code: { type: String, length: 50 }
+      portfolio_name: { type: String, length: 50 }
+      code: { type: String, length: 50 }
+      quantity: { type: Float }
+      update_time: { type: String, length: 50 }
+Portfolio_product:
+    table_name: "portfolioInfo_product"
+    db_url: "mysql+pymysql://root:root@localhost:3306/portfolio_new?autocommit=True"
+    chunk_size: 20000
+    workers: 4
+    private_keys:
+      - "valuation_date"
+      - 'portfolio_name'
+      - 'product_code'
+      - 'update_time'
+    schema:
+      valuation_date: { type: String, length: 50 }
+      product_code: { type: String, length: 50 }
+      portfolio_name: { type: String, length: 50 }
+      product_name: { type: String, length: 50 }
+      index_type: { type: String, length: 50 }
+      weight: { type: Float }
+      update_time: { type: String, length: 50 }
+Product_holding:
+    table_name: "product_holding"
+    db_url: "mysql+pymysql://root:root@localhost:3306/portfolio_new?autocommit=True"
+    chunk_size: 20000
+    workers: 4
+    private_keys:
+      - "valuation_date"
+      - 'code'
+      - 'product_code'
+      - 'update_time'
+    schema:
+      valuation_date: { type: String, length: 50 }
+      product_code: { type: String, length: 50 }
+      code: { type: String, length: 50 }
+      quantity: { type: Float }
+      update_time: { type: String, length: 50 }
+Product_weight:
+    table_name: "product_weight"
+    db_url: "mysql+pymysql://root:root@localhost:3306/portfolio_new?autocommit=True"
+    chunk_size: 20000
+    workers: 4
+    private_keys:
+      - "valuation_date"
+      - 'code'
+      - 'product_code'
+      - 'update_time'
+    schema:
+      valuation_date: { type: String, length: 50 }
+      product_code: { type: String, length: 50 }
+      code: { type: String, length: 50 }
+      weight: { type: Float }
+      update_time: { type: String, length: 50 }
+Trading_renr:
+    table_name: "trading_renr"
+    db_url: "mysql+pymysql://root:root@localhost:3306/trading_new?autocommit=True"
+    chunk_size: 20000
+    workers: 4
+    private_keys:
+      - "update_time"
+      - 'code'
+    schema:
+      valuation_date: { type: String, length: 50 }
+      code: { type: String, length: 50 }
+      市场: { type: String, length: 50 }
+      数量: { type: Float }
+      相对权重: { type: String, length: 50 }
+      方向: { type: String, length: 50 }
+      量比: { type: String, length: 50 }
+      update_time: { type: String, length: 50 }
+Trading_xy:
+    table_name: "trading_xy"
+    db_url: "mysql+pymysql://root:root@localhost:3306/trading_new?autocommit=True"
+    chunk_size: 20000
+    workers: 4
+    private_keys:
+      - "valuation_date"
+      - 'code'
+      - 'product_code'
+      - 'update_time'
+    schema:
+      valuation_date: { type: String, length: 50 }
+      code: { type: String, length: 50 }
+      市场: { type: String, length: 50 }
+      数量: { type: Float }
+      相对权重: { type: String, length: 50 }
+      方向: { type: String, length: 50 }
+      量比: { type: String, length: 50 }
+      update_time: { type: String, length: 50 }
+
+

@@ -1,0 +1,128 @@
+{
+    "components": {
+        "data_source": {
+            "mode": "sql"
+        },
+        "database": {
+            "database1": {
+                "host": "localhost",
+                "port": 3306,
+                "user": "root",
+                "password": "root",
+                "charset": "utf8mb4"
+            }
+        }
+    },
+    "main_folder": [
+        {
+            "folder_type": "input_folder_2",
+            "path": "Data_prepared_new",
+            "disk": "D:"
+        },
+        {
+            "folder_type": "input_folder",
+            "path": "Portfolio_new",
+            "disk": "D"
+        },
+        {
+            "folder_type": "output_folder",
+            "path": "Trading_data_new",
+            "disk": "D"
+        },
+        {
+            "folder_type": "config",
+            "path": "code_new_SQL_wind\\Trading\\global_setting",
+            "disk": "D"
+        }
+    ],
+    "sub_folder": [
+        {
+            "data_type": "portfolio_weight",
+            "folder_name": "portfolio_weight",
+            "folder_type": "input_folder",
+            "sql_sheet": "portfolio",
+            "database": "portfolio_new"
+        },
+        {
+            "data_type": "portfolio_holding",
+            "folder_name": "portfolio_holding",
+            "folder_type": "input_folder",
+            "sql_sheet": "portfolio_holding",
+            "database": "portfolio_new"
+        },
+        {
+            "data_type": "product_weight",
+            "folder_name": "product_weight",
+            "folder_type": "output_folder"
+        },
+        {
+            "data_type": "product_trading",
+            "folder_name": "trading_order",
+            "folder_type": "output_folder"
+        },
+        {
+            "data_type": "input_holding",
+            "folder_name": "data_product\\product_info",
+            "folder_type": "input_folder_2",
+            "sql_sheet": "stockholding",
+            "database": "data_prepared_new"
+        },
+        {
+            "data_type": "input_info",
+            "folder_name": "data_product\\product_info",
+            "folder_type": "input_folder_2",
+            "sql_sheet": "productinfo",
+            "database": "data_prepared_new"
+        },
+        {
+            "data_type": "input_info_temp",
+            "folder_name": "data_product\\product_info",
+            "folder_type": "input_folder_2",
+            "sql_sheet": "productinfo_temp",
+            "database": "data_prepared_new"
+        },
+        {
+            "data_type": "input_info_l4",
+            "folder_name": "data_product\\product_info",
+            "folder_type": "input_folder_2",
+            "sql_sheet": "data_l4info",
+            "database": "data_prepared_new"
+        },
+        {
+            "data_type": "config_product",
+            "folder_name": "config_product.xlsx",
+            "folder_type": "config"
+        },
+        {
+            "data_type": "config_sql",
+            "folder_name": "trading_sql.yaml",
+            "folder_type": "config"
+        },
+        {
+            "data_type": "config_trading",
+            "folder_name": "config_trading.xlsx",
+            "folder_type": "config"
+        },
+        {
+            "data_type": "product_Realholding_daily",
+            "sql_sheet": "stockholding",
+            "database": "data_prepared_new"
+        },
+        {
+            "data_type": "product_Realholding_realtime",
+            "sql_sheet": "stockholding_temp",
+            "database": "data_prepared_new"
+        },
+        {
+            "data_type": "productTarget_weight",
+            "sql_sheet": "product_weight",
+            "database": "portfolio_new"
+        }
+        ,
+        {
+            "data_type": "productTarget_weight_local",
+            "folder_name": "product_weight",
+            "folder_type": "input_folder"
+        }
+    ]
+} 

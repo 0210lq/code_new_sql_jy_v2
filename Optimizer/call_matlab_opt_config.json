@@ -1,0 +1,14 @@
+{
+  "matlab": {
+    "function_name": "optimizer_matlab_func_v2",
+    "scripts_dir": "Optimizer_python/matlab",
+    "worker_count": 1,
+    "engine_count": 1
+  },
+  "logging": {
+    "level": "INFO",
+    "file": "matlab_opt.log"
+  }
+}
+
+

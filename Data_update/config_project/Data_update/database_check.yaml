@@ -1,0 +1,45 @@
+# mode1: 检查仅包含valuation_date字段的表的数据维度
+mode1:
+  - table_name: "data_index"
+  - table_name: "data_stock"
+  - table_name: "data_future"
+  - table_name: "data_option"
+  - table_name: "data_etf"
+  - table_name: "data_lhb"
+  - table_name: "data_convertibleBond"
+  - table_name: "data_factorreturn"
+  - table_name: "data_factorpool"
+  - table_name: "data_factorcov"
+  - table_name: "data_factorspecificrisk"
+# mode2: 检查包含valuation_date和organization字段的表的数据维度
+mode2:
+  - table_name: "data_vix"
+  - table_name: "data_indexcomponent"
+  - table_name: "data_factorindexexposure"
+  - table_name: "data_indexother"
+
+# mode3: 检查包含valuation_date和product_code字段的表的数据维度
+mode3:
+  - table_name: "data_l4holding"
+  - table_name: "data_l4info"
+
+# mode4: 检查包含valuation_date、type和organization字段的表的数据维度
+mode4:
+  - table_name: "data_us"
+  - table_name: "data_macro"
+  - table_name: "data_indexother"
+
+# mode5: 检查包含valuation_date和score_name字段的表的数据维度
+mode5:
+  - table_name: "data_score"
+
+# mode6: 检查包含valuation_date和portfolio_name字段的表的数据维度
+mode6:
+  - table_name: "portfolio"
+
+# mode7: 不需要日常检查的表
+mode7:
+  - table_name: "chinesevaluationdate"
+  - table_name: "stockuniverse"
+  - table_name: "st_stock"
+  - table_name: "specialday"

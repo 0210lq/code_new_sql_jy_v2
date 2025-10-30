@@ -1,0 +1,199 @@
+Trading System 项目说明文档
+================================================================================
+
+项目概述：
+量化交易系统，支持多产品投资组合管理和交易订单生成
+
+================================================================================
+系统架构
+================================================================================
+
+核心模块：
+1. 全局配置模块 (global_setting/global_dic.py)
+2. 数据准备模块 (data_prepared.py)
+3. 持仓构建模块 (holding_construct.py)
+4. 投资组合保存模块 (portfolio_saving.py)
+5. 交易订单处理模块 (trading_order/trading_order_processing.py)
+6. 宣夜交易订单模块 (trading_order/trading_order_xuanye.py)
+7. 仁睿交易订单模块 (trading_order/trading_order_renrui.py)
+8. 交易检查模块 (trading_check.py)
+9. 主运行模块 (running_main.py)
+
+================================================================================
+函数详细说明
+================================================================================
+
+1. 全局配置模块 (global_setting/global_dic.py)
+   - init(): 初始化全局字典
+   - get(key): 获取配置信息
+   - set(key, value): 设置配置信息
+
+2. 数据准备模块 (data_prepared.py)
+   类：data_prepared
+   - __init__(target_date, realtime): 初始化
+   - indexType_getting(product_code): 获取指数类型
+   - mktData_withdraw(): 获取市场数据
+   - portfolioList_withdraw(): 获取投资组合列表
+   - portfolioWeight_withdraw(portfolio_name): 获取组合权重
+   - productCode_withdraw(): 获取产品代码列表
+   - tradingTime_withdraw(product_code): 获取交易时间
+   - productInfo_withdraw(product_code): 获取产品信息
+   - productHolding_withdraw(product_code): 获取产品持仓
+   - productTargetWeight_withdraw(product_code): 获取目标权重
+
+3. 持仓构建模块 (holding_construct.py)
+   类：holding_construction
+   - __init__(df_portfolio, df_mkt, stock_money): 初始化
+   - consturction_main(): 构建持仓数据
+
+4. 投资组合保存模块 (portfolio_saving.py)
+   类：portfolio_saving_main
+   - __init__(target_date, realtime): 初始化
+   - PortfolioInfo_saving(): 保存组合信息
+   - PortfolioHolinng_saving(): 保存组合持仓
+   - ProductWeight_saving(df_prodInfo): 保存产品权重
+   - ProductHolding_saving(df_prodInfo, df_portHolding): 保存产品持仓
+   - sqlSaving_main(): 执行所有保存
+
+5. 交易订单处理模块 (trading_order/trading_order_processing.py)
+   - target_date_decision(): 目标日期决策
+   - nontrading_list_getting(product_code): 获取非交易股票列表
+   - trading_xy_main(trading_mode, is_realtime): 宣夜交易订单生成
+   - trading_rr_main(is_realtime): 仁睿交易订单生成
+
+6. 宣夜交易订单模块 (trading_order/trading_order_xuanye.py)
+   类：trading_xuanye
+   - __init__(df_weight, df_holding, df_mkt, target_date, stock_money, etf_pool, trading_time): 初始化
+   - stockmoney_rebalance(stock_money): 资金重平衡
+   - trading_order_xuanye_mode_1(): TWAP模式订单生成
+   - trading_order_xuanye_mode_2(): VWAP模式订单生成
+   - trading_order_xy_main(trading_mode): 主交易订单生成
+
+7. 仁睿交易订单模块 (trading_order/trading_order_renrui.py)
+   类：trading_renrui
+   - __init__(df_weight, df_holding, df_mkt, target_date, stock_money): 初始化
+   - stockmoney_rebalance(stock_money): 资金重平衡
+   - trading_order_renrui(): 仁睿交易订单生成
+
+8. 交易检查模块 (trading_check.py)
+   - target_date_decision(): 目标日期决策
+   - renrHolding_check(): 仁睿持仓检查
+   - xyHolding_check(): 宣夜持仓检查
+   - Holding_checking_main(): 主检查函数
+
+9. 主运行模块 (running_main.py)
+   - target_date_decision(): 目标日期决策
+   - PortfolioSaving_main(is_realtime): 投资组合保存主函数
+   - TradingOder_main(is_realtime): 交易订单生成主函数
+
+================================================================================
+系统流程图
+================================================================================
+
+主流程：
+系统启动 → 目标日期决策 → 数据准备 → 持仓构建 → 交易订单生成 → 数据保存
+
+交易订单生成流程：
+获取权重 → 获取持仓 → 计算差异 → 资金重平衡 → 生成订单
+
+数据保存流程：
+组合信息 → 组合持仓 → 产品权重 → 产品持仓 → SQL保存
+
+================================================================================
+函数关系图
+================================================================================
+
+调用关系：
+running_main
+├─▶ target_date_decision()
+├─▶ PortfolioSaving_main()
+│   └─▶ portfolio_saving_main
+│       ├─▶ PortfolioInfo_saving()
+│       ├─▶ PortfolioHolinng_saving()
+│       ├─▶ ProductWeight_saving()
+│       ├─▶ ProductHolding_saving()
+│       └─▶ sqlSaving_main()
+└─▶ TradingOder_main()
+    ├─▶ trading_xy_main()
+    │   └─▶ trading_xuanye
+    │       ├─▶ stockmoney_rebalance()
+    │       ├─▶ trading_order_xuanye_mode_1()
+    │       ├─▶ trading_order_xuanye_mode_2()
+    │       └─▶ trading_order_xy_main()
+    └─▶ trading_rr_main()
+        └─▶ trading_renrui
+            ├─▶ stockmoney_rebalance()
+            └─▶ trading_order_renrui()
+
+数据流向：
+global_dic.get() ──┐
+                   ├─▶ data_prepared ──▶ holding_construction
+global_tools.* ────┘                    │
+                                        ▼
+trading_order_processing ◀──────────────┘
+        │
+        ├─▶ trading_xuanye ──▶ 生成宣夜订单文件
+        └─▶ trading_renrui ──▶ 生成仁睿订单文件
+
+================================================================================
+配置说明
+================================================================================
+
+主要配置文件：
+- trading_path_config.json: 路径配置文件
+- config_product.xlsx: 产品配置文件
+- config_trading.xlsx: 交易配置文件
+- trading_sql.yaml: 数据库配置文件
+
+环境变量：
+- GLOBAL_TOOLSFUNC: 全局工具函数路径
+
+数据源模式：
+- local: 本地文件模式
+- sql: 数据库模式
+
+================================================================================
+使用说明
+================================================================================
+
+系统启动：
+python running_main.py
+
+主要功能：
+- 投资组合数据保存：PortfolioSaving_main()
+- 交易订单生成：TradingOder_main()
+- 交易检查：Holding_checking_main()
+
+支持的产品：
+- 宣夜产品：SGS958等
+- 仁睿产品：SLA626等
+
+交易模式：
+- TWAP模式：时间加权平均价格
+- VWAP模式：成交量加权平均价格
+
+================================================================================
+注意事项
+================================================================================
+
+1. 数据依赖：
+   - 确保所有配置文件路径正确
+   - 确保数据库连接正常
+   - 确保市场数据可用
+
+2. 时间处理：
+   - 系统会自动判断工作日
+   - 20:00后使用下一个工作日
+   - 支持实时和历史模式
+
+3. 资金管理：
+   - 自动资金重平衡
+   - 买卖差异控制在50万以内
+   - 持仓数量标准化为100股
+
+4. 错误处理：
+   - 使用异常处理确保模块独立性
+   - 单个模块失败不影响整体执行
+   - 提供详细的错误日志
+
+================================================================================

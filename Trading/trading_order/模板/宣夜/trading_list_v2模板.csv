@@ -1,0 +1,7 @@
+﻿算法编码/strategyCode,10060103,,,,,,
+算法名称/strategyName,宇量皓兴VWAP,,,,,,
+母单名称/taskName,宇量皓兴VWAP-1120,,,,,,
+算法参数/parameters,参数名,参数值,,,,,
+,开始结束时间/start_end_time,"09:30:00,15:00:00",,,,,
+,过期后执行/expire_action,FALSE,,,,,
+股票列表/stockList,股票代码/ticker,目标量/quantity,方向/side,限制成交价格/price,涨跌停动作/limit_action,市场参与率/participation_rate,投资备注/remark

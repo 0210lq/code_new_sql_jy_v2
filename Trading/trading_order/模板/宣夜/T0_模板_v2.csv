@@ -1,0 +1,8 @@
+﻿算法编码/strategyCode,10250101,quantitiy
+算法名称/strategyName,恒泰AI日内2号,
+母单名称/taskName,恒泰AI日内2号-1120,
+有效期/validDate,,
+算法参数/parameters,参数名,参数值
+,开始结束时间/start_end_time,"09:30:00,15:00:00"
+,算法分配资金/money,
+股票列表/stockList,股票代码/stockCode,目标量/holdNum

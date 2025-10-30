@@ -1,0 +1,200 @@
+# L4数据处理配置文件
+
+# 标准化的目标列名
+standard_columns:
+  price: 
+    name: 市价
+    description: 价格相关
+    patterns:
+      - 市价
+      - 行情
+      - 单位净值
+      - 价格
+      - price
+      - market_price
+  value:
+    name: 市值
+    description: 市值相关
+    patterns:
+      - 市值-本币
+      - 市值
+      - 市值合计
+      - 市值小计
+      - market_value
+      - value
+  cost:
+    name: 成本
+    description: 成本相关
+    patterns:
+      - 成本-本币
+      - 成本
+      - 成本合计
+      - 成本小计
+      - cost_basis
+      - cost
+  cost_ratio:
+    name: 成本占净值%
+    description: 成本占比相关
+    patterns:
+      - 成本占净值%
+      - 成本占比
+      - 成本比例
+      - cost_ratio
+      - cost_percentage
+  value_ratio:
+    name: 市值占净值%
+    description: 市值占比相关
+    patterns:
+      - 市值占净值%
+      - 市值占比
+      - 市值比例
+      - value_ratio
+      - value_percentage
+  gain:
+    name: 估值增值
+    description: 估值增值相关
+    patterns:
+      - 估值增值-本币
+      - 估值增值
+      - 浮动盈亏
+      - valuation_gain
+      - gain
+  unit_cost:
+    name: 单位成本
+    description: 单位成本相关
+    patterns:
+      - 单位成本
+      - 成本价
+      - unit_cost
+  quantity:
+    name: 数量
+    description: 数量相关
+    patterns:
+      - 数量
+      - 持仓
+      - quantity
+      - amount
+  code:
+    name: 科目代码
+    description: 代码相关
+    patterns:
+      - 科目代码
+      - code
+      - symbol
+  name:
+    name: 科目名称
+    description: 名称相关
+    patterns:
+      - 科目名称
+      - 名称
+      - name
+      - title
+  suspension_info:
+    name: 停牌信息
+    description: 停牌相关信息
+    patterns:
+      - 停牌信息
+      - 停牌
+      - suspension
+      - trading_suspension
+
+# 产品信息配置
+product_info:
+  pure_value:
+    name: "资产净值"
+    patterns:
+      - "资产净值"
+      - "基金资产净值:"
+      - "基金资产净值"
+      - "资产净值:"
+      - "净资产"
+      - "基金资产净值："
+  property:
+    name: "资产合计"
+    patterns:
+      - "资产合计"
+      - "资产类合计:"
+      - "资产类合计"
+      - "资产合计:"
+      - "资产类合计："
+  liabilities:
+    name: "负债合计"
+    patterns:
+      - "负债合计"
+      - "负债类合计:"
+      - "负债类合计"
+      - "负债合计:"
+      - "负债类合计："
+  security:
+    name: "证券投资合计"
+    patterns:
+      - "证券投资合计"
+      - "证券投资合计:"
+      - "证券投资"
+      - "证券投资:"
+      - "证券投资合计："
+  stock:
+    name: "其中股票投资"
+    patterns:
+      - "其中股票投资"
+      - "其中股票投资:"
+      - "股票投资"
+      - "股票投资:"
+      - "其中股票投资："
+  bond:
+    name: "其中债券投资"
+    patterns:
+      - "其中债券投资"
+      - "其中债券投资:"
+      - "债券投资"
+      - "债券投资:"
+      - "其中债券投资："
+  derivative:
+    name: "其中其他衍生工具投资"
+    patterns:
+      - "其中其他衍生工具投资"
+      - "其他衍生工具市值"
+      - "衍生工具"
+      - "衍生工具:"
+      - "其中其他衍生工具投资："
+  unit_pure:
+    name: "单位净值"
+    patterns:
+      - "单位净值"
+      - "今日单位净值："
+      - "今日单位净值"
+      - "基金单位净值："
+      - "基金单位净值"
+      - "单位净值:"
+      - "基金单位净值："
+  accumulated_pure:
+    name: "累计单位净值"
+    patterns:
+      - "累计单位净值"
+      - "累计单位净值:"
+      - "基金累计单位净值"
+      - "基金累计单位净值:"
+      - "累计单位净值："
+  accumulated_pure_d:
+    name: "净值日增长率"
+    patterns:
+      - "日净值增长率"
+      - "净值日增长率(%)"
+      - "净值日增长率(%):"
+      - "净值日增长率"
+      - "净值日增长率:"
+  shuhui_value:
+    name: "赎回金额"
+    patterns:
+      - "赎回金额"
+      - "赎回金额:"
+      - "赎回"
+      - "2203"  # 固定科目代码
+      - "2232"
+  shengou_value:
+    name: "申购金额"
+    patterns:
+      - "申购金额"
+      - "申购金额:"
+      - "申购"
+      - "1207"  # 固定科目代码 

@@ -1,0 +1,140 @@
+{
+    "components": {
+        "data_source": {
+            "mode": "sql"
+        },
+        "database": {
+            "database1": {
+                "host": "rm-bp1o6we7s3o1h76x1to.mysql.rds.aliyuncs.com",
+                "port": 3306,
+                "user": "wc",
+                "password": "Abcd1234#",
+                "charset": "utf8mb4"
+            }
+        }
+    },
+    "main_folder": [
+        {
+            "folder_type": "input_folder",
+            "path": "Data_prepared",
+            "disk": "D:"
+        },
+        {
+            "folder_type": "input_folder_2",
+            "path": "Portfolio_new",
+            "disk": "D"
+        },
+        {
+            "folder_type": "input_folder_3",
+            "path": "CTP_XY",
+            "disk": "D"
+        },
+        {
+            "folder_type": "input_folder_4",
+            "path": "CTP_RenR",
+            "disk": "D"
+        },
+        {
+            "folder_type": "input_folder_3",
+            "path": "Trading_data_new",
+            "disk": "D"
+        },
+        {
+            "folder_type": "config_folder",
+            "path": "code_new2\\Tracking_realtime\\global_setting",
+            "disk": "D"
+        }
+    ],
+    "sub_folder": [
+        {
+            "data_type": "path_config",
+            "folder_name": "tracking_path_config.json",
+            "folder_type": "config_folder"
+        },
+        {
+            "data_type": "prod_info",
+            "folder_name": "data_level4\\info_read_data",
+            "folder_type": "input_folder",
+            "database": "data_prepared_new",
+            "sql_sheet": "data_l4info"
+        },
+        {
+            "data_type": "future_info_xy",
+            "folder_name": "GLDH5000602925",
+            "folder_type": "input_folder_3",
+            "database": "data_prepared_new",
+            "sql_sheet": "futureholding_temp"
+        },
+        {
+            "data_type": "stock_info_xy",
+            "folder_name": "data_product\\product_info\\宣夜惠盈1号\\stock",
+            "folder_type": "input_folder",
+            "database": "data_prepared_new",
+            "sql_sheet": "stockholding_temp"
+        },
+        {
+            "data_type": "future_info_renr",
+            "folder_name": "GLDH5000603056",
+            "folder_type": "input_folder_4",
+            "database": "data_prepared_new",
+            "sql_sheet": "futureholding_temp"
+   },
+        {
+            "data_type": "stock_info_renr",
+            "folder_name": "data_product\\product_info\\仁睿价值精选1号\\stock",
+            "folder_type": "input_folder",
+            "database": "data_prepared_new",
+            "sql_sheet": "stockholding_temp"
+        },
+        {
+            "data_type": "future_info_rr",
+            "folder_name": "data_product\\product_info\\瑞锐\\Future",
+            "folder_type": "input_folder",
+            "database": "data_prepared_new",
+            "sql_sheet": "futureholding_temp"
+        },
+        {
+            "data_type": "stock_info_rr",
+            "folder_name": "data_product\\product_info\\瑞锐\\Stock",
+            "folder_type": "input_folder",
+            "database": "data_prepared_new",
+            "sql_sheet": "stockholding_temp"
+        },
+        {
+            "data_type": "future_info_gy",
+            "folder_name": "data_level4\\L4_read_data\\高益振英一号",
+            "folder_type": "input_folder",
+            "database": "data_prepared_new",
+            "sql_sheet": "data_l4holding"
+        },
+        {
+            "data_type": "future_info_rj",
+            "folder_name": "data_level4\\L4_read_data\\念觉沪深300",
+            "folder_type": "input_folder",
+            "database": "data_prepared_new",
+            "sql_sheet": "data_l4holding"
+        },
+        {
+            "data_type": "future_info_zx",
+            "folder_name": "data_level4\\L4_read_data\\念觉知行4号",
+            "folder_type": "input_folder",
+            "database": "data_prepared_new",
+            "sql_sheet": "data_l4holding"
+        },
+        {
+            "data_type": "product_weight",
+            "folder_name": "product_weight",
+            "folder_type": "input_folder_2",
+            "database": "portfolio_new",
+            "sql_sheet": "product_weight"
+        },
+        {
+            "data_type": "portfolio_weight",
+            "folder_name": "portfolio_weight",
+            "folder_type": "input_folder_2",
+            "database": "portfolio_new",
+            "sql_sheet": "portfolio"
+        }
+
+    ]
+}

@@ -1,0 +1,6 @@
+算法编码/strategyCode,10060101,,,,,,,,
+算法名称/strategyName,宇量皓兴TWAP,,,,,,,,
+母单名称/taskName,宇量皓兴TWAP-20240612,,,,,,,,
+算法参数/parameters,参数名,参数值,,,,,,,
+,开始结束时间/start_end_time,"13:00:00,13:30:00",,,,,,,
+股票列表/stockList,股票代码/ticker,母单数量/quantity,方向/side,限制成交价格/price,开盘竞价参与率/participation_rate_open,交易分散度/diversity,涨跌停动作/limit_action,市场参与率/participation_rate,投资备注/remark

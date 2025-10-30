@@ -1,0 +1,28 @@
+SGS958:
+  name: "宣夜惠盈一号"
+  index: "沪深300"
+  type: "中性"
+SLA626:
+  name: "仁睿价值精选1号"
+  index: "中证500"
+  type: "指增"
+SNY426:
+  name: "瑞锐精选"
+  index: "沪深300"
+  type: "中性"
+SSS044:
+  name: "瑞锐500"
+  index: "中证500"
+  type: "指增"
+SVU353:
+  name: "高益振英一号"
+  index: "沪深300"
+  type: "中性"
+STH580:
+  name: "念觉沪深300"
+  index: "沪深300"
+  type: "指增"
+SST132:
+  name: "念觉知行4号"
+  index: "中证A500"
+  type: "指增"
