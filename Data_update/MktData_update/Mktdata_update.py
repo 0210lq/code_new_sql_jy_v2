@@ -9,10 +9,121 @@ from datetime import datetime
 from tools_func.tools_func import *
 from MktData_update.Mktdata_preparing import (indexdata_prepare, stockData_preparing,
                                               indexComponent_prepare)
+from MktData_update.index_component_query import IndexComponent
 import re
 from setup_logger.logger_setup import setup_logger
 import io
 import contextlib
+import yaml
+from urllib.parse import urlparse, unquote
+
+def check_table_exists(db_url, table_name):
+    """
+    检查表是否存在
+    
+    参数:
+        db_url: 数据库连接URL
+        table_name: 表名
+    
+    返回:
+        bool: 表是否存在
+    """
+    try:
+        # 解析数据库URL（处理密码中包含特殊字符的情况）
+        # URL格式：mysql+pymysql://user:password@host:port/database?params
+        # 密码中可能包含 # @ 等特殊字符，需要使用正则表达式或手动解析
+        
+        import re
+        
+        # 移除 mysql+pymysql:// 前缀
+        if db_url.startswith('mysql+pymysql://'):
+            url_str = db_url.replace('mysql+pymysql://', '', 1)
+        else:
+            url_str = db_url
+        
+        # 使用正则表达式解析：user:password@host:port/database?params
+        # 匹配格式：([^:]+):([^@]+)@([^:]+):(\d+)/([^?]+)
+        pattern = r'([^:]+):([^@]+)@([^:]+):(\d+)/([^?]+)'
+        match = re.match(pattern, url_str)
+        
+        if not match:
+            print(f"无法解析数据库URL: {db_url}")
+            return False
+        
+        user = unquote(match.group(1))
+        password = unquote(match.group(2))
+        host = match.group(3)
+        port = int(match.group(4))
+        database_with_params = match.group(5)
+        
+        # 分离数据库名和参数
+        if '?' in database_with_params:
+            database = database_with_params.split('?')[0]
+        else:
+            database = database_with_params
+        
+        if not database or not user or not password:
+            return False
+        
+        # 打印连接信息用于调试
+        print(f"[检查表存在性] 数据库连接信息:")
+        print(f"  Host: {host}")
+        print(f"  Port: {port}")
+        print(f"  User: {user}")
+        print(f"  Database: {database}")
+        print(f"  Table: {table_name}")
+        
+        # 直接使用PyMySQL检查表
+        import pymysql
+        conn = pymysql.connect(host=host, port=port, user=user, password=password, 
+                             database=database, charset='utf8mb4')
+        cursor = conn.cursor()
+        
+        # 首先列出数据库中所有的表
+        list_tables_sql = """
+        SELECT table_name 
+        FROM information_schema.tables 
+        WHERE table_schema = %s
+        """
+        cursor.execute(list_tables_sql, (database,))
+        all_tables = [row[0] for row in cursor.fetchall()]
+        print(f"[检查表存在性] 数据库 {database} 中的所有表: {all_tables}")
+        
+        # 检查表是否存在（不区分大小写）
+        check_table_sql = """
+        SELECT COUNT(*) 
+        FROM information_schema.tables 
+        WHERE table_schema = %s AND LOWER(table_name) = LOWER(%s)
+        """
+        cursor.execute(check_table_sql, (database, table_name))
+        table_exists = cursor.fetchone()[0] > 0
+        
+        # 如果使用小写检查不存在，尝试查找实际表名（区分大小写）
+        if not table_exists:
+            actual_table_sql = """
+            SELECT table_name 
+            FROM information_schema.tables 
+            WHERE table_schema = %s AND LOWER(table_name) = LOWER(%s)
+            """
+            cursor.execute(actual_table_sql, (database, table_name))
+            actual_table = cursor.fetchone()
+            if actual_table:
+                actual_table_name = actual_table[0]
+                print(f"[检查表存在性] 找到实际表名: {actual_table_name} (原查询: {table_name})")
+                table_exists = True
+        
+        print(f"[检查表存在性] 表 {table_name} 存在性: {table_exists}")
+        
+        cursor.close()
+        conn.close()
+        
+        return table_exists
+    except Exception as e:
+        import traceback
+        print(f"检查表存在性时出错: {e}")
+        print(traceback.format_exc())
+        return False
+
 def capture_file_withdraw_output(func, *args, **kwargs):
     """捕获file_withdraw的输出并记录到日志"""
     logger = setup_logger('Mktdata_update_sql')
@@ -290,15 +401,19 @@ class indexComponent_update:
     def index_dic_processing(self):
         dic_index = {'上证50': 'sz50', '沪深300': 'hs300', '中证500': 'zz500', '中证1000': 'zz1000',
                      '中证2000': 'zz2000', '中证A500': 'zzA500','国证2000':'gz2000'}
+        # dic_index = { '3145': 'hs300'}
         return dic_index
 
     def index_component_update_main(self):
         df_config = self.source_priority_withdraw()
         df_config.sort_values(by='rank', inplace=True)
         source_name_list = df_config['source_name'].tolist()
+
         dic_index = self.index_dic_processing()
+
         outputpath_component = glv.get('output_indexcomponent')
         outputpath_port = glv.get('output_portfolio')
+
         if self.is_sql == True:
             inputpath_configsql = glv.get('config_sql')
             sm=gt.sqlSaving_main(inputpath_configsql,'indexComponent',delete=True)
@@ -367,6 +482,132 @@ class indexComponent_update:
                 else:
                     self.logger.warning(f'{index_type}_component在{available_date}暂无数据')
 
+    def index_component_update_main2(self):
+        working_days_list = gt.working_days_list(self.start_date, self.end_date)
+        
+        # 定义指数代码字典 '上证50': 'sz50', '沪深300': 'hs300', '中证500': 'zz500', '中证1000': 'zz1000',
+        #                      '中证2000': 'zz2000', '中证A500': 'zzA500','国证2000':'gz2000'
+        dic_index = {
+            '46': 'sz50',   # 上证50
+            '3145': 'hs300',  # 沪深300
+            '4978': 'zz500',  # 中证500
+            '39144': 'zz1000',  # 中证1000
+            '561230': 'zz2000',  # 中证2000
+            '636661': 'zzA500',  # 中证A500
+            '33792': 'gz2000',  # 国证2000
+        }
+        
+        # 初始化数据库保存器（如果需要）
+        if self.is_sql == True:
+            inputpath_configsql = glv.get('config_sql')
+            
+            # 读取配置文件，检查表是否存在
+            try:
+                with open(inputpath_configsql, 'r', encoding='utf-8') as f:
+                    config = yaml.safe_load(f)
+                
+                # 检查 indexComponent 表
+                if 'indexComponent' in config:
+                    indexcomp_config = config['indexComponent']
+                    db_url = indexcomp_config.get('db_url', '').strip()
+                    table_name = indexcomp_config.get('table_name', '').strip('"')
+                    self.logger.info(f"[配置信息] indexComponent:")
+                    self.logger.info(f"  db_url: {db_url}")
+                    self.logger.info(f"  table_name: {table_name}")
+                    if db_url and table_name:
+                        if not check_table_exists(db_url, table_name):
+                            self.logger.error(f"表 {table_name} 不存在，请先运行 chushihua() 创建表")
+                            self.logger.error(f"请检查连接信息是否正确，数据库和表名是否匹配")
+                            raise Exception(f"表 {table_name} 不存在，请先运行 chushihua() 创建表")
+                        else:
+                            self.logger.info(f"✓ 确认表 {table_name} 存在")
+                
+                # 检查 Portfolio 表
+                if 'Portfolio' in config:
+                    portfolio_config = config['Portfolio']
+                    db_url = portfolio_config.get('db_url', '').strip()
+                    table_name = portfolio_config.get('table_name', '').strip('"')
+                    if db_url and table_name:
+                        if not check_table_exists(db_url, table_name):
+                            self.logger.warning(f"表 {table_name} 不存在，请先运行 chushihua() 创建表")
+                            raise Exception(f"表 {table_name} 不存在，请先运行 chushihua() 创建表")
+                        else:
+                            self.logger.info(f"✓ 确认表 {table_name} 存在")
+            except Exception as e:
+                self.logger.error(f"检查表存在性时出错: {e}")
+                raise
+            
+            sm = gt.sqlSaving_main(inputpath_configsql, 'indexComponent', delete=True)
+            sm2 = gt.sqlSaving_main(inputpath_configsql, 'Portfolio', delete=True)
+
+        # 查询并获取DataFrame
+        index_component = IndexComponent(dic_index, 'source_db')
+        for available_date in working_days_list:
+            target_date = gt.next_workday_calculate(available_date)
+            target_date = gt.intdate_transfer(target_date)
+            self.logger.info(f'Processing date: {available_date}')
+            
+            # 支持多种日期格式
+            # df = index_component.query_index_component(20251030)  # 整数格式
+            # df = index_component.query_index_component('20251030')  # 字符串格式 YYYYMMDD
+            df_daily = index_component.query_index_component(available_date)  # 字符串格式 YYYY-MM-DD
+            
+            # 调试信息
+            self.logger.info(f'Query result for date {available_date}: {len(df_daily)} records')
+            if df_daily is None or len(df_daily) == 0:
+                self.logger.warning(f'No data returned for date {available_date}, skipping database write')
+                continue
+            
+            # 打印DataFrame信息用于调试
+            self.logger.info(f'DataFrame columns: {df_daily.columns.tolist()}')
+            self.logger.info(f'DataFrame shape: {df_daily.shape}')
+            
+            if len(df_daily) > 0:
+                # 处理df_port数据
+                df_port = df_daily[['code', 'weight','organization','update_time']].copy()
+                df_port['valuation_date'] = gt.strdate_transfer(target_date)
+                # 将organization列的值添加_comp后缀，然后重命名为portfolio_name
+                df_port['organization'] = df_port['organization'] + '_comp'
+                df_port = df_port.rename(columns={'organization': 'portfolio_name'})
+                # 重新排列列顺序
+                df_port = df_port[['valuation_date', 'portfolio_name', 'code', 'weight', 'update_time']]
+                
+                self.logger.info(f'Successfully queried component data for date: {available_date}, total records: {len(df_daily)}')
+                
+                # 写入数据库（如果需要）
+                if self.is_sql == True:
+                    # 按每个指数分别写入数据库
+                    for index_code_str, organization in dic_index.items():
+                        index_code = organization  # 获取指数英文简称，如 'hs300'
+                        
+                        # 筛选当前指数的df_daily数据
+                        df_daily_filtered = df_daily[df_daily['organization'] == index_code].copy()
+                        if len(df_daily_filtered) > 0:
+                            try:
+                                self.logger.info(f'Writing {len(df_daily_filtered)} records to indexComponent table for {index_code}')
+                                capture_file_withdraw_output(sm.df_to_sql, df_daily_filtered, 'organization', index_code)
+                                self.logger.info(f'Successfully wrote df_daily for {index_code}')
+                            except Exception as e:
+                                self.logger.error(f'Failed to write df_daily for {index_code}: {e}')
+                                raise
+                        else:
+                            self.logger.warning(f'No data found for organization {index_code} on date {available_date}')
+                        
+                        # 筛选当前指数的df_port数据
+                        portfolio_name = index_code + '_comp'
+                        df_port_filtered = df_port[df_port['portfolio_name'] == portfolio_name].copy()
+                        if len(df_port_filtered) > 0:
+                            try:
+                                self.logger.info(f'Writing {len(df_port_filtered)} records to Portfolio table for {portfolio_name}')
+                                capture_file_withdraw_output(sm2.df_to_sql, df_port_filtered, 'portfolio_name', portfolio_name)
+                                self.logger.info(f'Successfully wrote df_port for {portfolio_name}')
+                            except Exception as e:
+                                self.logger.error(f'Failed to write df_port for {portfolio_name}: {e}')
+                                raise
+                        else:
+                            self.logger.warning(f'No data found for portfolio {portfolio_name} on date {available_date}')
+            else:
+                self.logger.warning(f'Component data is empty for date: {available_date}')
 
 class stockData_update:
     def __init__(self,start_date,end_date,is_sql):

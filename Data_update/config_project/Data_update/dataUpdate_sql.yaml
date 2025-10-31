@@ -1,6 +1,6 @@
 indexData:
     table_name: "data_index"
-    db_url: "mysql+pymysql://root:root@localhost:3306/data_prepared_jy_new?autocommit=True "
+    db_url: "mysql+pymysql://zq:Abcd1234#@rm-cn-fhh4gzo9900083vo.rwlb.rds.aliyuncs.com:3306/data_prepared_jy?autocommit=True "
     chunk_size: 20000
     workers: 4
     private_keys:
@@ -22,7 +22,7 @@ indexData:
 
 indexComponent:
     table_name: "data_indexcomponent"
-    db_url: "mysql+pymysql://root:root@localhost:3306/data_prepared_jy_new?autocommit=True "
+    db_url: "mysql+pymysql://zq:Abcd1234#@rm-cn-fhh4gzo9900083vo.rwlb.rds.aliyuncs.com:3306/data_prepared_jy?autocommit=True "
     chunk_size: 20000
     workers: 4
     private_keys:
@@ -39,7 +39,7 @@ indexComponent:
 
 stockData:
     table_name: "data_stock"
-    db_url: "mysql+pymysql://root:root@localhost:3306/data_prepared_jy_new?autocommit=True "
+    db_url: "mysql+pymysql://zq:Abcd1234#@rm-cn-fhh4gzo9900083vo.rwlb.rds.aliyuncs.com:3306/data_prepared_jy?autocommit=True "
     chunk_size: 20000
     workers: 4
     private_keys:
@@ -64,7 +64,7 @@ stockData:
 
 futureData:
     table_name: "data_future"
-    db_url: "mysql+pymysql://root:root@localhost:3306/data_prepared_jy_new?autocommit=True "
+    db_url: "mysql+pymysql://zq:Abcd1234#@rm-cn-fhh4gzo9900083vo.rwlb.rds.aliyuncs.com:3306/data_prepared_jy?autocommit=True "
     chunk_size: 20000
     workers: 4
     private_keys:
@@ -92,7 +92,7 @@ futureData:
 
 FactorExposrue:
     table_name: "data_factorexposure"
-    db_url: "mysql+pymysql://root:root@localhost:3306/data_prepared_jy_new?autocommit=True "
+    db_url: "mysql+pymysql://zq:Abcd1234#@rm-cn-fhh4gzo9900083vo.rwlb.rds.aliyuncs.com:3306/data_prepared_jy?autocommit=True "
     chunk_size: 20000
     workers: 4
     private_keys:
@@ -146,7 +146,7 @@ FactorExposrue:
       update_time: { type: DateTime }
 FactorReturn:
     table_name: "data_factorreturn"
-    db_url: "mysql+pymysql://root:root@localhost:3306/data_prepared_jy_new?autocommit=True "
+    db_url: "mysql+pymysql://zq:Abcd1234#@rm-cn-fhh4gzo9900083vo.rwlb.rds.aliyuncs.com:3306/data_prepared_jy?autocommit=True "
     chunk_size: 20000
     workers: 4
     private_keys:
@@ -198,7 +198,7 @@ FactorReturn:
       update_time: { type: DateTime }
 FactorPool:
     table_name: "data_factorpool"
-    db_url: "mysql+pymysql://root:root@localhost:3306/data_prepared_jy_new?autocommit=True "
+    db_url: "mysql+pymysql://zq:Abcd1234#@rm-cn-fhh4gzo9900083vo.rwlb.rds.aliyuncs.com:3306/data_prepared_jy?autocommit=True "
     chunk_size: 20000
     workers: 4
     private_keys:
@@ -210,7 +210,7 @@ FactorPool:
       update_time: { type: DateTime }
 FactorCov:
     table_name: "data_factorcov"
-    db_url: "mysql+pymysql://root:root@localhost:3306/data_prepared_jy_new?autocommit=True "
+    db_url: "mysql+pymysql://zq:Abcd1234#@rm-cn-fhh4gzo9900083vo.rwlb.rds.aliyuncs.com:3306/data_prepared_jy?autocommit=True "
     chunk_size: 20000
     workers: 4
     private_keys:
@@ -265,7 +265,7 @@ FactorCov:
       update_time: { type: DateTime }
 FactorSpecificrisk:
     table_name: "data_factorspecificrisk"
-    db_url: "mysql+pymysql://root:root@localhost:3306/data_prepared_jy_new?autocommit=True "
+    db_url: "mysql+pymysql://zq:Abcd1234#@rm-cn-fhh4gzo9900083vo.rwlb.rds.aliyuncs.com:3306/data_prepared_jy?autocommit=True "
     chunk_size: 20000
     workers: 4
     private_keys:
@@ -278,7 +278,7 @@ FactorSpecificrisk:
       update_time: { type: DateTime }
 FactorIndexExposure:
     table_name: "data_factorindexexposure"
-    db_url: "mysql+pymysql://root:root@localhost:3306/data_prepared_jy_new?autocommit=True "
+    db_url: "mysql+pymysql://zq:Abcd1234#@rm-cn-fhh4gzo9900083vo.rwlb.rds.aliyuncs.com:3306/data_prepared_jy?autocommit=True "
     chunk_size: 20000
     workers: 4
     private_keys:
@@ -335,7 +335,7 @@ FactorIndexExposure:
 
 L4HoldingData:
     table_name: "data_l4holding"
-    db_url: "mysql+pymysql://root:root@localhost:3306/data_prepared_jy_new?autocommit=True "
+    db_url: "mysql+pymysql://zq:Abcd1234#@rm-cn-fhh4gzo9900083vo.rwlb.rds.aliyuncs.com:3306/data_prepared_jy?autocommit=True "
     chunk_size: 20000
     workers: 4
     private_keys:
@@ -353,7 +353,7 @@ L4HoldingData:
       mkt_value: { type: Float }
 L4InfoData:
     table_name: "data_l4info"
-    db_url: "mysql+pymysql://root:root@localhost:3306/data_prepared_jy_new?autocommit=True "
+    db_url: "mysql+pymysql://zq:Abcd1234#@rm-cn-fhh4gzo9900083vo.rwlb.rds.aliyuncs.com:3306/data_prepared_jy?autocommit=True "
     chunk_size: 20000
     workers: 4
     private_keys:
@@ -376,7 +376,7 @@ L4InfoData:
       SubscriptionAmount: { type: Float }
 Score:
     table_name: "data_score"
-    db_url: "mysql+pymysql://root:root@localhost:3306/data_prepared_jy_new?autocommit=True"
+    db_url: "mysql+pymysql://zq:Abcd1234#@rm-cn-fhh4gzo9900083vo.rwlb.rds.aliyuncs.com:3306/data_prepared_jy?autocommit=True"
     chunk_size: 20000
     workers: 4
     private_keys:
@@ -392,7 +392,7 @@ Score:
 
 Portfolio:
     table_name: "portfolio"
-    db_url: "mysql+pymysql://root:root@localhost:3306/portfolio_jy?autocommit=True"
+    db_url: "mysql+pymysql://zq:Abcd1234#@rm-cn-fhh4gzo9900083vo.rwlb.rds.aliyuncs.com:3306/portfolio_jy?autocommit=True"
     chunk_size: 20000
     workers: 4
     private_keys:
@@ -408,7 +408,7 @@ Portfolio:
 
 ChineseValuationDate:
     table_name: "chinesevaluationdate"
-    db_url: "mysql+pymysql://root:root@localhost:3306/data_prepared_jy_new?autocommit=True "
+    db_url: "mysql+pymysql://zq:Abcd1234#@rm-cn-fhh4gzo9900083vo.rwlb.rds.aliyuncs.com:3306/data_prepared_jy?autocommit=True "
     chunk_size: 20000
     workers: 4
     private_keys:
@@ -417,7 +417,7 @@ ChineseValuationDate:
       valuation_date: { type: String, length: 50 }
 STstock:
     table_name: "st_stock"
-    db_url: "mysql+pymysql://root:root@localhost:3306/data_prepared_jy_new?autocommit=True "
+    db_url: "mysql+pymysql://zq:Abcd1234#@rm-cn-fhh4gzo9900083vo.rwlb.rds.aliyuncs.com:3306/data_prepared_jy?autocommit=True "
     chunk_size: 20000
     workers: 4
     private_keys:
@@ -426,7 +426,7 @@ STstock:
       code: { type: String, length: 50 }
 Stock_uni:
     table_name: "stockUniverse"
-    db_url: "mysql+pymysql://root:root@localhost:3306/data_prepared_jy_new?autocommit=True "
+    db_url: "mysql+pymysql://zq:Abcd1234#@rm-cn-fhh4gzo9900083vo.rwlb.rds.aliyuncs.com:3306/data_prepared_jy?autocommit=True "
     chunk_size: 20000
     workers: 4
     private_keys:
@@ -439,7 +439,7 @@ Stock_uni:
       S_INFO_DELISTDATE: { type: Float }
 SpecialDay:
     table_name: "specialday"
-    db_url: "mysql+pymysql://root:root@localhost:3306/data_prepared_jy_new?autocommit=True "
+    db_url: "mysql+pymysql://zq:Abcd1234#@rm-cn-fhh4gzo9900083vo.rwlb.rds.aliyuncs.com:3306/data_prepared_jy?autocommit=True "
     chunk_size: 20000
     workers: 4
     private_keys:

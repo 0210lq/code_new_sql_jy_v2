@@ -16,15 +16,25 @@ DATABASE_CONFIGS = {
         'port': 3306,
         'user': 'back',
         'password': 'Abcd1234#',
-        'database': 'data_prepared_new'
+        'database': 'data_prepared_new',
+        'charset': 'utf8mb4',
+        'use_unicode': True,
+        'autocommit': False,
+        'connection_timeout': 30,
+        'raise_on_warnings': False
     },
     # 目标数据库配置
     'target_db': {
-        'host': 'localhost',
+        'host': 'rm-cn-fhh4gzo9900083vo.rwlb.rds.aliyuncs.com',
         'port': 3306,
-        'user': 'root',
-        'password': 'root',
-        'database': 'data_prepared_new'
+        'user': 'zq',
+        'password': 'Abcd1234#',
+        'database': 'data_prepared_jy',
+        'charset': 'utf8mb4',
+        'use_unicode': True,
+        'autocommit': False,
+        'connection_timeout': 30,
+        'raise_on_warnings': False
     }
 }
 
