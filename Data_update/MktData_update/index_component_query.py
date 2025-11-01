@@ -213,9 +213,10 @@ class IndexComponent:
             self.logger.error(f"查询指数成分股数据时发生错误: {e}")
             raise
         
-        finally:
-            # 关闭数据库连接
-            self.db_manager.disconnect()
+        # TEST: 临时注释掉自动关闭连接
+        # finally:
+        #     # 关闭数据库连接
+        #     self.db_manager.disconnect()
 
 
 if __name__ == '__main__':

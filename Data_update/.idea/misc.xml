@@ -3,5 +3,5 @@
   <component name="Black">
     <option name="sdkName" value="prod" />
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="prod" project-jdk-type="Python SDK" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="cloneBase" project-jdk-type="Python SDK" />
 </project>

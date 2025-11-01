@@ -10,6 +10,7 @@ from tools_func.tools_func import *
 from MktData_update.Mktdata_preparing import (indexdata_prepare, stockData_preparing,
                                               indexComponent_prepare)
 from MktData_update.index_component_query import IndexComponent
+from MktData_update.stock_data_query import StockData
 import re
 from setup_logger.logger_setup import setup_logger
 import io
@@ -608,6 +609,12 @@ class indexComponent_update:
                             self.logger.warning(f'No data found for portfolio {portfolio_name} on date {available_date}')
             else:
                 self.logger.warning(f'Component data is empty for date: {available_date}')
+        
+        # TEST: 在循环结束后手动关闭连接
+        try:
+            index_component.db_manager.disconnect()
+        except:
+            pass
 
 class stockData_update:
     def __init__(self,start_date,end_date,is_sql):
@@ -755,4 +762,76 @@ class stockData_update:
             else:
                 self.logger.warning(f'stock_data {available_date} 四个数据源更新有问题')
 
-
+    def stock_data_update_main2(self):
+        working_days_list=gt.working_days_list(self.start_date,self.end_date)
+        if self.is_sql == True:
+            inputpath_configsql = glv.get('config_sql')
+            sm=gt.sqlSaving_main(inputpath_configsql,'stockData',delete=True)
+        
+        for available_date in working_days_list:
+            self.logger.info(f'Processing date: {available_date}')
+            df_stock=pd.DataFrame()
+            available_date_int=gt.intdate_transfer(available_date)
+            
+            # 每次循环创建新的StockData对象，确保连接独立管理
+            stock_data = StockData('source_db')
+            try:
+                # 使用StockData从数据库查询数据，支持多种日期格式
+                df_stock = stock_data.query_stock_data(available_date)
+                self.logger.info(f'Successfully queried {len(df_stock)} records from database for date: {available_date}')
+            except Exception as e:
+                self.logger.error(f'Failed to query data from database for date {available_date}: {e}')
+                df_stock = pd.DataFrame()
+            finally:
+                # 确保StockData的连接已关闭（虽然query_stock_data内部会关闭，但这里双重保险）
+                try:
+                    stock_data.db_manager.disconnect()
+                except:
+                    pass
+            
+            if len(df_stock) > 0:
+                try:
+                    # 标准化列名（与stock_data_update_main保持一致）
+                    df_stock = self.standardize_column_names(df_stock)
+                    # 重命名adjfactor为adjfactor_jy
+                    # df_stock.rename(columns={'adjfactor':'adjfactor_jy'}, inplace=True)
+                    # 添加adjfactor_wind列（设为None）
+                    # df_stock['adjfactor_wind'] = None
+                    self.logger.info('stock_data使用的数据源是: jy (from database)')
+                except Exception as e:
+                    self.logger.error(f'Failed to standardize column names for date {available_date}: {e}')
+                    df_stock = pd.DataFrame()
+            else:
+                self.logger.warning(f'stock_data {available_date} 从数据库没有查询到数据')
+                continue
+            
+            if len(df_stock) != 0:
+                available_date2=gt.strdate_transfer(available_date_int)
+                df_stock['valuation_date']=available_date2
+                
+                # 重新排列列顺序：valuation_date最前，adjfactor_jy和adjfactor_wind最后
+                # cols = df_stock.columns.tolist()
+                # 移除valuation_date, adjfactor_jy, adjfactor_wind
+                # cols = [c for c in cols if c not in ['valuation_date', 'adjfactor_jy', 'adjfactor_wind']]
+                # 只保留实际存在的adjfactor_jy和adjfactor_wind
+                # adj_cols = [c for c in ['adjfactor_jy', 'adjfactor_wind'] if c in df_stock.columns]
+                # df_stock = df_stock[['valuation_date'] + cols + adj_cols]
+                
+                # 只保存到SQL数据库，不生成本地文件
+                if self.is_sql==True:
+                    try:
+                        now = datetime.now()
+                        df_stock['update_time'] = now
+                        # 与index_component_update_main2保持一致，不传递删除条件参数
+                        # 但确保在StockData连接关闭后再进行SQL写入
+                        capture_file_withdraw_output(sm.df_to_sql, df_stock)
+                        self.logger.info(f'Successfully saved stock data to SQL for date: {available_date}, records: {len(df_stock)}')
+                    except Exception as e:
+                        self.logger.error(f'Failed to save stock data to SQL for date {available_date}: {e}')
+                        import traceback
+                        self.logger.error(traceback.format_exc())
+                        # 不raise，继续处理下一个日期
+                else:
+                    self.logger.warning(f'SQL保存未启用，数据未保存')
+            else:
+                self.logger.warning(f'stock_data {available_date} 数据更新有问题')

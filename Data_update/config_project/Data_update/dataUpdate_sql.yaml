@@ -58,8 +58,9 @@ stockData:
       volume: { type: Float }
       amt: { type: Float }
       trade_status: { type: Integer }
-      adjfactor_jy: { type: Float }
-      adjfactor_wind: { type: Float }
+#      adjfactor_jy: { type: Float }
+#      adjfactor_wind: { type: Float }
+      adjfactor: { type: Float }
       update_time: { type: DateTime }
 
 futureData:
